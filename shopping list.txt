@@ -1,0 +1,22 @@
+Shopping list!
+
+For each controller/robot pair, we need:
+
+* 1 Arduino Micro
+        http://store.arduino.cc/product/A000053
+    or, http://arduino.cc/en/Main/Buy
+
+* 2 HC-05 Bluetooth Transceiver Module
+        http://www.ebay.com/itm/like/310540196588?lpid=82&chn=ps
+    or any of 1000 other sources
+
+* 1 External battery pack that can power an Arduino
+        Probably the best way to go is with a 9V battery
+   e.g. http://www.parts-express.com/snap-type-battery-clip-with-wire-leads-for-9v-batteries-battery-holders--090-805
+   or anywhere else
+
+
+
+TO START -- probably best to get enough to make 2 or 3 robots, then get more if it all works
+so, like, 2x or 3x the above part counts
+

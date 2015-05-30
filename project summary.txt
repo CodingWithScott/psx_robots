@@ -1,0 +1,47 @@
+IDEA:
+
+Communicate over bluetooth using megacheap Arduino modules
+Not sure yet which module would be best but there is an incredible range to choose from, so I'm confident we can find something good
+
+Arduino on bot, of course -- and also a separate Arduino for each controller
+
+We could probably power these using battery packs & rechargeable AAs or somesuch
+
+There are lots of options for controllers. One cool option would be using PS1 DualShocks
+
+We could push the DualShock analog stick positions over bluetooth and have those control the robot
+
+It looks like if the number of robots on the "field" is <= 10, then we should be more or less fine as far as signal interference
+(bluetooth uses http://en.wikipedia.org/wiki/Frequency-hopping_spread_spectrum to minimize jamming)
+(wifi runs on the same frequency range using similar mechanisms & you can reach the lower double digits in terms of overlapping hotspots before you start to see trouble)
+
+Here are some resources regarding interfacing the Arduino with PS1 controllers:
+Arduino library:
+    http://playground.arduino.cc/Main/PSXLibrary
+    It looks like this library was written for the /original/ PS1 controller, which was short-lived for good reason & which lacked double joysticks.
+    That's no bueno for our project. If we can't support tank style controls then we have already failed.
+    Good news is, it looks like it would be easy to port the library to support DualShock controllers by using the reference data in the links below.
+
+PSX Pinouts & command protocol description:
+    http://www.gamesx.com/controldata/psxcont/psxcont.htm
+
+More data on PSX controller setup & protocol:
+    http://pinouts.ru/Game/playstation_9_pinout.shtml
+
+There are a lot more similar resources where these came from.
+
+The big open question at this point is: How do we make the controller look & feel good?
+As far as hardware we're carrying around, there's the actual DualShock, plus a battery pack, plus an Arduino and a (small) Bluetooth module.
+This is a lot of stuff. Do we casemod the controller? How? Custom case? Duct tape? It's easy to come up with a working kludge, but hard to come up with an idea that's nice.
+
+
+
+TOTAL HARDWARE REQS:
+
+On top of the existing robot hardware, of course
+* One Arduino -- to bridge btwn controller & bluetooth link
+* Two Bluetooth shields or modules -- one for robot, one for controller
+  It looks like a pairing of HC-06 and HC-05, respectively, would be a good option here. The price tag here comes out to about $6 apiece, so $12 total
+* One PS1 DualShock controller
+* One battery pack & enough rechargeables to fill it
+* Whatever aesthetic case stuff we want to use to beautify the controller setup
