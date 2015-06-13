@@ -1,5 +1,3 @@
-#define BLUETOOTH_SPEED 38400
-
 #include <SoftwareSerial.h>
 #include <Servo.h>
 
@@ -45,8 +43,8 @@ void setup()
 
     Serial.begin(9600);
 
-    Serial.println("Starting config");
-    mySerial.begin(BLUETOOTH_SPEED);
+    Serial.println("Starting config -- robot");
+    mySerial.begin(38400);
     delay(1000);
 
     // Should respond with OK
@@ -85,24 +83,27 @@ void waitForResponse() {
 }
 
 void loop() {
-    // this'll give us the left servo value, in two bytes
-    // least significant bits
-    while (mySerial.available() == 0);
-    leftServoVal = mySerial.read();
-
-    // most significant bits
-    while (mySerial.available() == 0);
-    leftServoVal += mySerial.read() << 8;
-
-    // least sig
-    while (mySerial.available() == 0);
-    rightServoVal = mySerial.read();
-
-    // most sig
-    while (mySerial.available() == 0);
-    rightServoVal += mySerial.read() << 8;
-
-    // set the servos
-    servoLeft.writeMicroseconds(leftServoVal);
-    servoRight.writeMicroseconds(rightServoVal);
+    Serial.println("Top of the loop! Querying pair name.");
+    delay(500);
+    waitForResponse();
+//    // this'll give us the left servo value, in two bytes
+//    // least significant bits
+//    while (mySerial.available() == 0);
+//    leftServoVal = mySerial.read();
+//
+//    // most significant bits
+//    while (mySerial.available() == 0);
+//    leftServoVal += mySerial.read() << 8;
+//
+//    // least sig
+//    while (mySerial.available() == 0);
+//    rightServoVal = mySerial.read();
+//
+//    // most sig
+//    while (mySerial.available() == 0);
+//    rightServoVal += mySerial.read() << 8;
+//
+//    // set the servos
+//    servoLeft.writeMicroseconds(leftServoVal);
+//    servoRight.writeMicroseconds(rightServoVal);
 }

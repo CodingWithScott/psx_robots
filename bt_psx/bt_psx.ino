@@ -1,7 +1,3 @@
-#define BLUETOOTH_SPEED 38400
-
-#define BT_DELAY 100
-
 #include <SoftwareSerial.h>
 #include <Psx.h>
 
@@ -16,7 +12,6 @@
 // constants for bluetooth and controller params
 int FUDGE_LOWER = 95;
 int FUDGE_UPPER = 160;
-int BLUETOOTH_SPEED = 38400;
 int BT_DELAY = 100;
 
 // constants for interfacing with the controller
@@ -67,13 +62,21 @@ void setup()
 
     Serial.begin(9600);
 
-    Serial.println("Starting config");
-    mySerial.begin(BLUETOOTH_SPEED);
+    Serial.println("Starting config -- controller");
+    mySerial.begin(38400);
     delay(1000);
 
     // Should respond with OK
     Serial.println("Sending AT");
     mySerial.print("AT\r\n");
+    waitForResponse();
+    
+    Serial.println("Setting device name to psxone");
+    mySerial.print("AT+NAME=psxone\r\n");
+    waitForResponse();
+    
+    Serial.println("Querying device name");
+    mySerial.print("AT+NAME?\r\n");
     waitForResponse();
 
     // set the device as master (0=slave 1=master 2=some other shit)
@@ -114,38 +117,44 @@ void waitForResponse() {
 }
 
 void loop() {
-    LStick = Psx.readLStick();
-    RStick = Psx.readRStick();
+    Serial.println("Top of the loop!");
+    mySerial.print("0\r\n");
+    delay(1000);
+    mySerial.print("1\r\n");
+    delay(1000);
 
-    LStickX = LStick >> 8;
-    LStickY = LStick & 0xFF;
-
-    RStickX = RStick >> 8;
-    RStickY = RStick & 0xFF;
-
-    if ((FUDGE_LOWER < LStickY) && (LStickY < FUDGE_UPPER)) {
-        leftServoVal = 1500;
-    } else {
-        leftServoVal = 1245 + (2*LStickY);
-    }
-
-    if ((FUDGE_LOWER < RStickY) && (RStickY < FUDGE_UPPER)) {
-        rightServoVal = 1500;
-    } else {
-        rightServoVal = 1755 - (2*RStickY);
-    }
-
-    // sending the data
-    // order: LSBytes, MSBytes
-    // for example, 1500 = bx00000101 11011100 // so to send 1500 we send:
-    // 11011100 followed by 00000101
-    delay(BT_DELAY);
-    mySerial.write(leftServoVal >> 8);
-    delay(BT_DELAY);
-    mySerial.write(leftServoVal & 0xFF);
-
-    delay(BT_DELAY);
-    mySerial.write(rightServoVal >> 8);
-    delay(BT_DELAY);
-    mySerial.write(rightServoVal & 0xFF);
+//    LStick = Psx.readLStick();
+//    RStick = Psx.readRStick();
+//
+//    LStickX = LStick >> 8;
+//    LStickY = LStick & 0xFF;
+//
+//    RStickX = RStick >> 8;
+//    RStickY = RStick & 0xFF;
+//
+//    if ((FUDGE_LOWER < LStickY) && (LStickY < FUDGE_UPPER)) {
+//        leftServoVal = 1500;
+//    } else {
+//        leftServoVal = 1245 + (2*LStickY);
+//    }
+//
+//    if ((FUDGE_LOWER < RStickY) && (RStickY < FUDGE_UPPER)) {
+//        rightServoVal = 1500;
+//    } else {
+//        rightServoVal = 1755 - (2*RStickY);
+//    }
+//
+//    // sending the data
+//    // order: LSBytes, MSBytes
+//    // for example, 1500 = bx00000101 11011100 // so to send 1500 we send:
+//    // 11011100 followed by 00000101
+//    delay(BT_DELAY);
+//    mySerial.write(leftServoVal >> 8);
+//    delay(BT_DELAY);
+//    mySerial.write(leftServoVal & 0xFF);
+//
+//    delay(BT_DELAY);
+//    mySerial.write(rightServoVal >> 8);
+//    delay(BT_DELAY);
+//    mySerial.write(rightServoVal & 0xFF);
 }

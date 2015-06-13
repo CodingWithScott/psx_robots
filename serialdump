@@ -1,0 +1,142 @@
+This is a raw dump of a serial session. This was captured from the robot, with
+both arduinos using the exact code currently in the folders as of this commit.
+This shows the arduinos doing almost exactly what we want.
+This is recorded so we can review it later and figure out what's going on.
+
+Sg config -- robot
+
+Starting config -- robot
+
+Sending AT
+
+OK
+
+
+Sending ADDR query
+
++ADDR:98d3:31:6014a5
+
+OK
+
+
+Sending ROLE=0
+
+OK
+
+
+BIND
+
+OK
+
+
+Done with setup!
+
+Delaying 7 seconds.
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+OK
+
+AT
+
+
+Top of the loop! Querying pair name.
+
+AT+NAME=psxone
+
+
+Top of the loop! Querying pair name.
+
+AT+NAME?
+
+A
+Top of the loop! Querying pair name.
+
+T+ROLE=1
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+AT+BIND=98d3,31,6014a5
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+
+Top of the loop! Querying pair name.
+
+0
+
+
+Top of the loop! Querying pair name.
+
+1
+
+0
+Top of the loop! Querying pair name.
+
+
+
+1
+
+
+Top of the loop! Querying pair name.
+
+0
+
+1
+Top of the loop! Querying pair name.
+
+
+
+0
+
+
+Top of the loop! Querying pair name.
+
+1
+
+0
+Top of the loop! Querying pair name.
+
+
+
+1
+
+
+Top of the loop! Querying pair name.
+
+0
+
+1
+Top of the loop! Querying pair name.
+
+
+
+0
+
+
+Top of the loop! Querying pair name.
+
+
