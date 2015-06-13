@@ -79,11 +79,10 @@ void waitForResponse() {
     while (mySerial.available()) {
         Serial.write(mySerial.read());
     }
-    Serial.write("\n");
 }
 
 void loop() {
-    Serial.println("Top of the loop! Querying pair name.");
+    Serial.println("Top of the loop! Waiting half a second & listening for a message.");
     delay(500);
     waitForResponse();
 //    // this'll give us the left servo value, in two bytes
