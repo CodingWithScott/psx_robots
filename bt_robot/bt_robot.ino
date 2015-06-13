@@ -30,6 +30,44 @@ int rightServoVal;
    AT+BAUDC----1382400
  */
 
+void waitForResponse() {
+    delay(1000);
+    char tempchar;
+    //int tempint;
+    while (mySerial.available()) {
+        tempchar = mySerial.read();
+        Serial.print(tempchar);
+        //tempint = tempchar;
+        //Serial.print(tempint);
+        //Serial.print(" ");
+    }
+    //Serial.print("\n");
+}
+
+char getFirstByteOfLineFromBT() {
+    char retval;
+    char nextbyte;
+    int temp;
+    Serial.println("Waiting for serial to have contents.");
+    while (mySerial.available() == 0) {}
+    Serial.println("Reading line from BT:");
+    retval = mySerial.read();
+    temp = retval;
+    Serial.print(retval);
+    // skip subsequent characters until we hit \n (ascii 10)
+    
+    nextbyte = mySerial.read();
+    while (nextbyte != 10) {
+        temp = nextbyte;
+        Serial.print(nextbyte);
+        Serial.print(" ");
+        while (mySerial.available() == 0) {}
+        nextbyte = mySerial.read();
+    }
+    Serial.print("\n");
+    return retval;
+}
+
 void setup()
 {
     servoLeft.attach(12);
@@ -69,40 +107,51 @@ void setup()
     waitForResponse();
 
     Serial.println("Done with setup!");
-    Serial.println("Delaying 7 seconds.");
+    Serial.println("Delaying 8 seconds.");
 
-    delay(7000);
-}
-
-void waitForResponse() {
-    delay(1000);
-    while (mySerial.available()) {
-        Serial.write(mySerial.read());
+    delay(8000);
+    
+    Serial.println("Waiting until we're through all the AT+ commands");
+    
+    // this code would be at the top of the loop if we didn't have any garbage messages
+    // at the start of the connection, but we do, so 
+    leftServoVal = 65;
+    
+    while (leftServoVal == 65) {
+        leftServoVal = getFirstByteOfLineFromBT();
     }
+    
+    Serial.println("Done skipping.");
 }
 
 void loop() {
-    Serial.println("Top of the loop! Waiting half a second & listening for a message.");
-    delay(500);
-    waitForResponse();
-//    // this'll give us the left servo value, in two bytes
-//    // least significant bits
-//    while (mySerial.available() == 0);
-//    leftServoVal = mySerial.read();
-//
-//    // most significant bits
-//    while (mySerial.available() == 0);
-//    leftServoVal += mySerial.read() << 8;
-//
-//    // least sig
-//    while (mySerial.available() == 0);
-//    rightServoVal = mySerial.read();
-//
-//    // most sig
-//    while (mySerial.available() == 0);
-//    rightServoVal += mySerial.read() << 8;
-//
-//    // set the servos
-//    servoLeft.writeMicroseconds(leftServoVal);
-//    servoRight.writeMicroseconds(rightServoVal);
+    //Serial.println("Top of the loop! Waiting half a second & listening for a message.");
+    //waitForResponse();
+    //delay(500);
+    //waitForResponse();
+    // this'll give us the left servo value, in two bytes
+
+    Serial.println("Top of the loop.");
+    // most significant bits
+    while (mySerial.available() == 0) {};
+    leftServoVal += getFirstByteOfLineFromBT() << 8;
+
+    // least sig
+    while (mySerial.available() == 0) {};
+    rightServoVal = getFirstByteOfLineFromBT();
+
+    // most sig
+    while (mySerial.available() == 0) {};
+    rightServoVal += getFirstByteOfLineFromBT() << 8;
+
+    Serial.println("Left, then right");
+    Serial.println(leftServoVal);
+    Serial.println(rightServoVal);
+    // set the servos
+    //servoLeft.writeMicroseconds(leftServoVal);
+    //servoRight.writeMicroseconds(rightServoVal);
+    
+    // least significant bits
+    while (mySerial.available() == 0) {};
+    leftServoVal = getFirstByteOfLineFromBT();
 }
